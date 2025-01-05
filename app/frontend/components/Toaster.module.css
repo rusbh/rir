@@ -1,0 +1,21 @@
+.toast {
+  align-items: start;
+  padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+  font-family: var(--mantine-font-family);
+  line-height: var(--mantine-line-height-xs);
+  border-radius: var(--mantine-radius-default);
+
+  [data-icon] {
+    margin-top: 3px;
+  }
+
+  [data-title] {
+    color: var(--mantine-color-black);
+    font-size: var(--mantine-font-size-sm);
+  }
+
+  [data-description] {
+    color: alpha(var(--mantine-color-black), 0.75);
+    font-size: var(--mantine-font-size-sm);
+  }
+}

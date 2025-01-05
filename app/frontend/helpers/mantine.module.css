@@ -1,0 +1,20 @@
+.button {
+  font-weight: 700;
+
+  [data-mantine-color-scheme='dark']
+    :global(.mantine-Card-root)
+    &:where(
+      :disabled:not([data-loading]),
+      [data-disabled]:not([data-loading])
+    ) {
+    background-color: var(--mantine-color-dark-7);
+  }
+}
+
+.focus {
+  outline-width: 1px;
+}
+
+.input {
+  font-size: var(--mantine-font-size-md);
+}

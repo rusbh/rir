@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    render inertia: 'Home/Index', props: {
+    render inertia: 'Home', props: {
       name: 'World'
     }
   end

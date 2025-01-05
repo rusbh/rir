@@ -1,35 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title inertia><%= content_for(:title) || "Rir" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
+    <meta name="csrf-param" content="<%= request_forgery_protection_token %>" inertia>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>" inertia>
+    <meta name="env" content="<%= Rails.env %>">
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-    <%= vite_stylesheet_tag "application" %>
+
     <%= vite_react_refresh_tag %>
     <%= vite_client_tag %>
-    <%= vite_typescript_tag "inertia" %>
+    <%= vite_typescript_tag "application.tsx" %>
     <%= inertia_ssr_head %>
     <%= vite_javascript_tag 'application' %>
-    <!--
-      If using a TypeScript entrypoint file:
-        vite_typescript_tag 'application'
-
-      If using a .jsx or .tsx entrypoint, add the extension:
-        vite_javascript_tag 'application.jsx'
-
-      Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
-    -->
-
   </head>
 
   <body>

@@ -53,8 +53,12 @@ gem "types_from_serializers", "~> 2.3"
 
 # Helpers
 gem "amazing_print", "~> 1.6"
-gem "js-routes", "~> 2.3"
+gem "js_from_routes", "~> 4.0"
 gem "foreman", "~> 0.88.1"
+gem "letter_opener", "~> 1.10"
+
+# healthcheck status
+gem "rails-healthcheck", "~> 1.4"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

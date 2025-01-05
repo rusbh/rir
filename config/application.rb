@@ -20,6 +20,7 @@ Bundler.require(*Rails.groups)
 
 module Rir
   class Application < Rails::Application
+    BOOTED_AT = Time.current
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2
 
@@ -36,7 +37,22 @@ module Rir
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    # Don't generate helpers, views, assets or system test files.
+    config.generators do |g|
+      g.helper false
+      g.system_tests nil
+      g.template_engine nil
+      g.assets false
+    end
+
+    config.session_store :cookie_store, key: "_rir_session"
+
+    config.exceptions_app = routes
+    config.action_dispatch
+          .rescue_responses["ActionPolicy::Unauthorized"] = :unauthorized
+
+    config.action_controller.action_on_unpermitted_parameters = :raise
+
+    def booted_at = BOOTED_AT
   end
 end

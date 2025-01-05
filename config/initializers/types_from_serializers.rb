@@ -4,7 +4,7 @@ return unless Rails.env.development?
 
 TypesFromSerializers.config do |config|
   config.base_serializers = ["ApplicationSerializer"]
-  config.output_dir = Rails.root.join("app/types/generated")
+  config.output_dir = Rails.root.join("app/frontend/types/generated")
   config.sql_to_typescript_type_mapping.update(
     json: "Record<string, string>",
     jsonb: "Record<string, string>",

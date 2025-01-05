@@ -1,24 +1,21 @@
-# README
+# rir
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Getting started
 
-Things you may want to cover:
+### Requirements
 
-* Ruby version
+* Ruby 3.3.1
+* Rails 7.2.2.1
+* Node 22.11.0
 
-* System dependencies
+```bash
+bin/setup
+```
 
-* Configuration
+## todos
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- [ ] user avatar
+- [ ] admin panel
+- [ ] better emails
+- [ ] Fix Bugs
+  - responce gets converted from snake_case to camelCase (swr?)

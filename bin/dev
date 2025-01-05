@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-export PORT="${PORT:-3000}"
+export PORT="${RAILS_PORT:-3000}"
 
 if command -v overmind 1> /dev/null 2>&1
 then
