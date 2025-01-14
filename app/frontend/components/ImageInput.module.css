@@ -1,0 +1,39 @@
+.dropzone {
+  &[data-with-src] {
+    background-color: transparent;
+
+    > .dropzoneInner {
+      opacity: 0;
+    }
+
+    &:not([data-loading]):hover {
+      background-color: var(--af-dropzone-backdrop);
+      > .dropzoneInner {
+        opacity: 1;
+      }
+    }
+  }
+
+  &[data-disabled] {
+    --_dropzone-bg: var(--mantine-color-gray-1);
+    cursor: not-allowed;
+    .dropzoneIcon {
+      color: var(--mantine-color-gray-6);
+    }
+  }
+}
+
+.dropzoneIcon {
+  color: var(--mantine-primary-color-light-color);
+}
+
+.dropzoneInner {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 150ms ease;
+}

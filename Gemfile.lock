@@ -47,6 +47,12 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
+    active_storage_validations (1.4.0)
+      activejob (>= 6.1.4)
+      activemodel (>= 6.1.4)
+      activestorage (>= 6.1.4)
+      activesupport (>= 6.1.4)
+      marcel (>= 1.0.3)
     activejob (7.2.2.1)
       activesupport (= 7.2.2.1)
       globalid (>= 0.3.6)
@@ -352,6 +358,9 @@ GEM
       sorbet-runtime (>= 0.5.10782)
     ruby-next-core (1.0.3)
     ruby-progressbar (1.13.0)
+    ruby-vips (2.2.2)
+      ffi (~> 1.12)
+      logger
     securerandom (0.4.0)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
@@ -406,6 +415,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_policy (~> 0.7.2)
+  active_storage_validations (~> 1.4)
   amazing_print (~> 1.6)
   bootsnap
   brakeman
@@ -434,6 +444,7 @@ DEPENDENCIES
   rubocop-rails (~> 2.27)
   rubocop-rspec (~> 3.3)
   ruby-lsp (~> 0.22.1)
+  ruby-vips (~> 2.2)
   shoulda-matchers (~> 6.4)
   types_from_serializers (~> 2.3)
   tzinfo-data

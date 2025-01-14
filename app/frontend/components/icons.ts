@@ -23,3 +23,4 @@ export { default as UserIcon } from "~icons/heroicons/user-20-solid";
 export { default as AccountIcon } from "~icons/heroicons/wrench-screwdriver-20-solid";
 export { default as CancelIcon } from "~icons/heroicons/x-circle-20-solid";
 export { default as CodeIcon } from "~icons/heroicons/code-bracket-20-solid";
+export { default as PhotoIcon } from "~icons/heroicons/photo-20-solid";

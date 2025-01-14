@@ -8,6 +8,11 @@
     <meta name="env" content="<%= Rails.env %>">
     <%= csp_meta_tag %>
 
+    <meta name="active-storage-direct-uploads-url" content="<%= rails_direct_uploads_path %>">
+    <% if (direct_uploads_size_limit = Rails.configuration.active_storage.direct_uploads_size_limit) %>
+      <meta name="active-storage-direct-uploads-size-limit" content="<%= direct_uploads_size_limit %>">
+    <% end %>
+
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">

@@ -34,13 +34,13 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
 
   const [opened, setOpened] = useState(false);
 
-  const { data } = useFetchRoute<{ status: Schema.Status }>(
+  const { data } = useFetchRoute<{ bootedAt: string }>(
     routes.healthcheckHealthchecks.check,
     {
       descriptor: "load server info",
     }
   );
-  const { status } = data ?? {};
+  const { bootedAt } = data ?? {};
 
   const { submit: logout } = useInertiaForm({
     action: routes.usersSessions.destroy,
@@ -79,10 +79,9 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
           variant="default"
           size="lg"
           leftSection={
-            // currentUser ? (
-            //   <Avatar src={currentUser.avatar?.src} size={21} />
-            // ) :
-            (
+            currentUser ? (
+              <Avatar src={currentUser.avatar?.src} size={21} />
+            ) : (
               <UserIcon />
             )
           }
@@ -96,7 +95,7 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
             },
           }}
         >
-          {currentUser?.name ?? "Sign in & more"}
+          {currentUser?.name ?? "menu"}
         </Badge>
       </Menu.Target>
       <Menu.Dropdown>
@@ -134,8 +133,8 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
         <Menu.Item component="div" disabled pt={4}>
           <Text span size="xs">
             Server booted{" "}
-            {status ? (
-              <TimeAgo>{status.bootedAt}</TimeAgo>
+            {bootedAt ? (
+              <TimeAgo>{bootedAt}</TimeAgo>
             ) : (
               <Skeleton
                 display="inline-block"

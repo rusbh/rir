@@ -2,7 +2,7 @@ import { Box, BoxProps, Button, Stack, TextInput } from "@mantine/core";
 import { useDidUpdate } from "@mantine/hooks";
 import { ComponentPropsWithoutRef, FC, useMemo } from "react";
 
-// import ImageInput from "./ImageInput";
+import ImageInput from "./ImageInput";
 import { toastChangesSaved } from "~/helpers/alerts";
 import { useAuthenticatedUser } from "~/helpers/authentication";
 import { useFetchForm } from "~/helpers/fetch/form";
@@ -23,11 +23,10 @@ const AccountProfileForm: FC<AccountProfileFormProps> = ({
   const authenticatedUser = useAuthenticatedUser();
 
   const initialValues = useMemo(() => {
-    const { name } = authenticatedUser;
-    // const { avatar, name } = authenticatedUser;
+    const { avatar, name } = authenticatedUser;
     return {
       name,
-      // avatar: avatar ? { signedId: avatar.signed_id } : null,
+      avatar: avatar ? { signedId: avatar.signed_id } : null,
     };
   }, [authenticatedUser]);
   interface FormData {
@@ -46,17 +45,17 @@ const AccountProfileForm: FC<AccountProfileFormProps> = ({
     action: routes.usersRegistrations.update,
     descriptor: "update profile",
     initialValues,
-    transformValues: ({...attributes }) => ({
+    transformValues: ({ avatar, ...attributes }) => ({
       user: {
         ...attributes,
-        // avatar: avatar ? avatar.signedId : "",
+        avatar: avatar ? avatar.signedId : "",
       },
     }),
     onSuccess: ({ user }: FormData, { setInitialValues }) => {
-      const { name } = user;
+      const { name, avatar } = user;
       setInitialValues({
         name,
-        // avatar: avatar ? { signedId: avatar.signed_id } : null,
+        avatar: avatar ? { signedId: avatar.signed_id } : null,
       });
       toastChangesSaved({ to: "your profile" });
       onProfileUpdated();
@@ -72,13 +71,13 @@ const AccountProfileForm: FC<AccountProfileFormProps> = ({
     <Box component="form" onSubmit={submit} {...otherProps}>
       <Stack gap="xs">
         <TextInput {...getInputProps("name")} label="Name" required />
-        {/* <ImageInput
+        <ImageInput
           {...getInputProps("avatar")}
           label="Avatar"
           w={140}
           radius={1000}
           center
-        /> */}
+        />
         <Button
           type="submit"
           leftSection={<SaveIcon />}

@@ -21,8 +21,6 @@ export interface AccountPasswordFormProps
 const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
   ...otherProps
 }) => {
-  // const [passwordStrength, setPasswordStrength] = useState(0.0);
-
   const { values, getInputProps, isDirty, processing, submit } = useInertiaForm(
     {
       name: "change-password",
@@ -40,9 +38,6 @@ const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
           if (!value) {
             return "Password is required";
           }
-          // if (passwordStrength < 1.0) {
-          //   return "Password is too weak";
-          // }
         },
         current_password: isNotEmpty("Current password is required"),
       },

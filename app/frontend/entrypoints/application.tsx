@@ -1,10 +1,12 @@
-import { createInertiaApp } from '@inertiajs/react';
-import { ReactNode } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
-import AppWrapper from '~/components/AppWrapper';
-import { setupInertia } from '~/helpers/inertia';
-import { setupLuxon } from '~/helpers/luxon';
-import { SharedPageProps } from '~/types';
+import { createInertiaApp } from "@inertiajs/react";
+import { ReactNode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
+
+import AppWrapper from "~/components/AppWrapper";
+import { setupInertia } from "~/helpers/inertia";
+import { setupLuxon } from "~/helpers/luxon";
+import { setupActiveStorage } from "~/helpers/activestorage";
+import { SharedPageProps } from "~/types";
 // Temporary type definition, until @inertiajs/react provides one
 type ResolvedComponent = {
   default: ReactNode;
@@ -13,13 +15,13 @@ type ResolvedComponent = {
 
 setupInertia();
 setupLuxon();
+setupActiveStorage();
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   createInertiaApp<SharedPageProps>({
-    // title: (title) => (title ? `${title} - RIR` : 'RIR'),
     progress: false,
     resolve: (name) => {
-      const pages = import.meta.glob<ResolvedComponent>('../pages/**/*.tsx', {
+      const pages = import.meta.glob<ResolvedComponent>("../pages/**/*.tsx", {
         eager: true,
       });
       const page = pages[`../pages/${name}.tsx`];
@@ -29,17 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return page;
     },
 
-    // setup({ el, App, props }) {
-    //   if (el) {
-    //     createRoot(el).render(createElement(App, props));
-    //   } else {
-    //     console.error(
-    //       'Missing root element.\n\n' +
-    //         'If you see this error, it probably means you load Inertia.js on non-Inertia pages.\n' +
-    //         'Consider moving <%= vite_typescript_tag "inertia" %> to the Inertia-specific layout instead.'
-    //     );
-    //   }
-    // },
     setup: ({ App, el, props }) => {
       const { initialPage } = props;
       const app = (

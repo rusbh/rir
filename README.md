@@ -8,14 +8,10 @@
 * Rails 7.2.2.1
 * Node 22.11.0
 
-```bash
-bin/setup
-```
-
 ## todos
 
-- [ ] user avatar
+- [x] user avatar
 - [ ] admin panel
 - [ ] better emails
 - [ ] Fix Bugs
-  - responce gets converted from snake_case to camelCase (swr?)
+  - server errors displaying on inertia modal

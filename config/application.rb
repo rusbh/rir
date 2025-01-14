@@ -53,6 +53,10 @@ module Rir
 
     config.action_controller.action_on_unpermitted_parameters = :raise
 
+    config.active_storage.variant_processor = :vips
+    config.active_storage.direct_uploads_size_limit = 25.megabytes
+    config.active_storage.routes_prefix = "/storage"
+
     def booted_at = BOOTED_AT
   end
 end
