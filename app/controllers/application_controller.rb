@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   include RendersJsonException
 
+  around_action :with_error_context
+
   def authenticate_user!(opts = {})
     if (user = current_user)
       user

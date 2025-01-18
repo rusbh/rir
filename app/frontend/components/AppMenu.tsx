@@ -13,9 +13,9 @@ import { ComponentPropsWithoutRef, FC, startTransition, useState } from "react";
 import {
   AccountIcon,
   HomeIcon,
+  MenuIcon,
   SignInIcon,
   SignOutIcon,
-  UserIcon,
 } from "~/components/icons";
 import { routes } from "~/helpers/routes";
 import { useCurrentUser } from "~/helpers/authentication";
@@ -82,7 +82,7 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
             currentUser ? (
               <Avatar src={currentUser.avatar?.src} size={21} />
             ) : (
-              <UserIcon />
+              <MenuIcon />
             )
           }
           styles={{

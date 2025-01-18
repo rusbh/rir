@@ -20,6 +20,9 @@ Bundler.require(*Rails.groups)
 
 module Rir
   class Application < Rails::Application
+    require "owner"
+    require "admin"
+
     BOOTED_AT = Time.current
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.2

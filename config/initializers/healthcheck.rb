@@ -10,7 +10,8 @@ Healthcheck.configure do |config|
   # -- Custom Response --
   config.custom = lambda { |controller, checker|
     controller.render(json: {
-                        status: StatusSerializer.render(checker)
+                        status: HealthCheckSerializer.render(checker),
+                        "bootedAt" => Rir::Application.booted_at
                       })
   }
 
