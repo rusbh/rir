@@ -58,6 +58,9 @@ gem "js_from_routes", "~> 4.0"
 gem "foreman", "~> 0.88.1"
 gem "letter_opener", "~> 1.10"
 
+# Rerun programs when files change
+gem "rerun", "~> 0.14.0", require: false
+
 # healthcheck status
 gem "rails-healthcheck", "~> 1.4"
 

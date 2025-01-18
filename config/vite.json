@@ -1,16 +1,22 @@
 {
   "all": {
     "sourceCodeDir": "app/frontend",
-    "watchAdditionalPaths": []
+    "watchAdditionalPaths": [
+      "~/assets/**/*",
+      "~/pages/*.tsx"
+    ],
+    "ssrBuildEnabled": true,
+    "ssrEntrypoint": "~/ssr/ssr.{js,jsx,ts,tsx}",
+    "ssrOutputDir": "dist/ssr"
   },
   "development": {
     "autoBuild": true,
-    "publicOutputDir": "vite-dev",
+    "publicOutputDir": "dist-dev",
     "port": 3036
   },
   "test": {
     "autoBuild": true,
-    "publicOutputDir": "vite-test",
+    "publicOutputDir": "dist-test",
     "port": 3037
   }
 }

@@ -1,2 +1,4 @@
-web: bin/rails s
-vite: bin/vite dev
+rails: bin/rails s
+vite-dev: bin/vite dev
+vite-build_ssr: bin/vite build --ssr -m dev --watch --force
+vite-ssr: sleep 4 && bundle exec rerun -p 'dist/ssr/**/*.js' -q -- bin/vite ssr
