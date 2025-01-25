@@ -1,16 +1,19 @@
-import { Box, BoxProps, Button, PasswordInput, Stack, TextInput } from "@mantine/core";
+import { Box, BoxProps, Button, Stack, TextInput } from "@mantine/core";
 import { isEmail, isNotEmpty } from "@mantine/form";
-import { ComponentPropsWithoutRef, FC } from "react";
+import { ComponentPropsWithoutRef, FC, startTransition, useState } from "react";
 
 import { useFieldsFilled } from "~/helpers/form";
 import { useInertiaForm } from "~/helpers/inertia/form";
 import { routes } from "~/helpers/routes";
+import StrongPasswordInput from "./StrongPasswordInput";
 
 export interface SignupFormProps
   extends BoxProps,
     Omit<ComponentPropsWithoutRef<"form">, "style" | "children" | "onSubmit"> {}
 
 const SignupForm: FC<SignupFormProps> = (props) => {
+  const [passwordStrength, setPasswordStrength] = useState(0.0);
+
   const { values, getInputProps, processing, submit } = useInertiaForm({
     action: routes.usersRegistrations.create,
     descriptor: "sign up",
@@ -25,6 +28,9 @@ const SignupForm: FC<SignupFormProps> = (props) => {
       password: (value) => {
         if (!value) {
           return "Password is required";
+        }
+        if (passwordStrength < 1.0) {
+          return "Password is too weak";
         }
       },
     },
@@ -54,12 +60,17 @@ const SignupForm: FC<SignupFormProps> = (props) => {
           autoComplete="email"
           required
         />
-        <PasswordInput
+        <StrongPasswordInput
           {...getInputProps("password")}
           label="Password"
           placeholder="paS$w0rD"
           autoComplete="new-password"
           required
+          onStrengthCheck={strength => {
+            startTransition(() => {
+              setPasswordStrength(strength);
+            });
+          }}
         />
         <Button type="submit" disabled={!filled} loading={processing}>
           Sign up

@@ -6,7 +6,7 @@ import {
   NumberInput,
   Overlay,
   Textarea,
-} from '@mantine/core'
+} from "@mantine/core";
 import {
   ActionIcon,
   Alert,
@@ -19,46 +19,46 @@ import {
   PasswordInput,
   TextInput,
   ThemeIcon,
-} from '@mantine/core'
+} from "@mantine/core";
 
-import classes from './mantine.module.css'
-import './mantine.css'
-import { cn } from '~/lib/utils'
+import classes from "./mantine.module.css";
+import "./mantine.css";
+import { cn } from "~/lib/utils";
 
-export type CustomColors = 'primary' | 'accent' | DefaultMantineColor
+export type CustomColors = "primary" | "accent" | DefaultMantineColor;
 
-declare module '@mantine/core' {
+declare module "@mantine/core" {
   export interface MantineThemeColorsOverride {
-    colors: Record<CustomColors, MantineColorsTuple>
+    colors: Record<CustomColors, MantineColorsTuple>;
   }
 }
 
 export const THEME = createTheme({
   autoContrast: true,
-  cursorType: 'pointer',
+  cursorType: "pointer",
   colors: {
     primary: DEFAULT_THEME.colors.violet,
     accent: DEFAULT_THEME.colors.teal,
     resumeAccent: DEFAULT_THEME.colors.indigo,
   },
-  primaryColor: 'primary',
-  defaultRadius: 'md',
+  primaryColor: "primary",
+  defaultRadius: "md",
   fontFamily:
-    'Inter Variable, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, ' +
-    'Arial, sans-serif',
+    "Inter Variable, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, " +
+    "Arial, sans-serif",
   fontFamilyMonospace:
-    'JetBrains Mono Variable, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, ' +
-    'Liberation Mono, Courier New, monospace',
+    "JetBrains Mono Variable, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, " +
+    "Liberation Mono, Courier New, monospace",
   headings: {
     fontFamily:
-      'Inter Variable, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, ' +
-      'Arial, sans-serif',
+      "Inter Variable, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, " +
+      "Arial, sans-serif",
   },
-  focusClassName: cn('mantine-focus-auto', classes.focus),
+  focusClassName: cn("mantine-focus-auto", classes.focus),
   components: {
     ActionIcon: ActionIcon.extend({
       defaultProps: {
-        variant: 'subtle',
+        variant: "subtle",
       },
     }),
     Alert: Alert.extend({
@@ -69,26 +69,26 @@ export const THEME = createTheme({
       },
     }),
     Button: Button.extend({
-      defaultProps: { variant: 'light' },
+      defaultProps: { variant: "light" },
       classNames: {
         root: classes.button,
       },
     }),
     Group: Group.extend({
       defaultProps: {
-        wrap: 'nowrap',
+        wrap: "nowrap",
       },
     }),
     Loader: Loader.extend({
       defaultProps: {
-        size: 'sm',
-        color: 'primary.5',
+        size: "sm",
+        color: "primary.5",
       },
     }),
     Modal: Modal.extend({
       styles: ({ headings: { sizes, ...style } }) => ({
         header: {
-          alignItems: 'start',
+          alignItems: "start",
         },
         title: {
           ...sizes.h4,
@@ -103,7 +103,7 @@ export const THEME = createTheme({
     }),
     JsonInput: JsonInput.extend({
       defaultProps: {
-        variant: 'filled',
+        variant: "filled",
       },
       classNames: {
         input: classes.input,
@@ -118,15 +118,15 @@ export const THEME = createTheme({
           lineHeight: lineHeights.xs,
         },
         icon: {
-          backgroundColor: 'transparent',
-          color: 'var(--notification-color)',
+          backgroundColor: "transparent",
+          color: "var(--notification-color)",
           marginInlineEnd: spacing.xs,
         },
       }),
     }),
     NumberInput: NumberInput.extend({
       defaultProps: {
-        variant: 'filled',
+        variant: "filled",
       },
       classNames: {
         input: classes.input,
@@ -134,7 +134,7 @@ export const THEME = createTheme({
     }),
     TextInput: TextInput.extend({
       defaultProps: {
-        variant: 'filled',
+        variant: "filled",
       },
       classNames: {
         input: classes.input,
@@ -142,7 +142,7 @@ export const THEME = createTheme({
     }),
     Textarea: Textarea.extend({
       defaultProps: {
-        variant: 'filled',
+        variant: "filled",
       },
       classNames: {
         input: classes.input,
@@ -150,16 +150,17 @@ export const THEME = createTheme({
     }),
     ThemeIcon: ThemeIcon.extend({
       defaultProps: {
-        variant: 'default',
+        variant: "default",
       },
     }),
     PasswordInput: PasswordInput.extend({
       defaultProps: {
-        variant: 'filled',
+        variant: "filled",
       },
       classNames: {
         input: classes.input,
       },
     }),
   },
-})
+});
+

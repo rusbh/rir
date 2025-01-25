@@ -61,6 +61,9 @@ gem "letter_opener", "~> 1.10"
 # Rerun programs when files change
 gem "rerun", "~> 0.14.0", require: false
 
+# check password strength
+gem "strong_password", "~> 0.0.10"
+
 # healthcheck status
 gem "rails-healthcheck", "~> 1.4"
 
@@ -94,4 +97,3 @@ group :test do
   gem "shoulda-matchers", "~> 6.4"
 end
 
-gem "active_storage_validations", "~> 1.4"

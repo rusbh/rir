@@ -1,7 +1,8 @@
-import { Box, BoxProps, Button, PasswordInput, Stack } from "@mantine/core";
-import { ComponentPropsWithoutRef, FC } from "react";
+import { Box, BoxProps, Button, Stack } from "@mantine/core";
+import { ComponentPropsWithoutRef, FC, useState } from "react";
 import { useInertiaForm } from "~/helpers/inertia/form";
 import { routes } from "~/helpers/routes";
+import StrongPasswordInput from "./StrongPasswordInput";
 
 export interface ChangePasswordPageFormProps
   extends BoxProps,
@@ -13,6 +14,8 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
   resetPasswordToken,
   ...otherProps
 }) => {
+  const [passwordStrength, setPasswordStrength] = useState(0.0);
+
   const { getInputProps, processing, submit } = useInertiaForm({
     action: routes.usersPasswords.update,
     descriptor: "change password",
@@ -23,6 +26,9 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
       password: value => {
         if (!value) {
           return "Password is required";
+        }
+        if (passwordStrength < 1.0) {
+          return "Password is too weak";
         }
       },
     },
@@ -37,13 +43,14 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
   return (
     <Box component="form" onSubmit={submit} {...otherProps}>
       <Stack gap="xs">
-        <PasswordInput
+        <StrongPasswordInput
           {...getInputProps("password")}
           label="New password"
           placeholder="paS$w0rD"
           autoComplete="new-password"
           required
           minLength={6}
+          onStrengthCheck={setPasswordStrength}
         />
         <Button type="submit" loading={processing}>
           Continue

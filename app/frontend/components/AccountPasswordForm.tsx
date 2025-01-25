@@ -7,9 +7,10 @@ import {
   Transition,
 } from "@mantine/core";
 import { isNotEmpty } from "@mantine/form";
-import { ComponentPropsWithoutRef, FC } from "react";
+import { ComponentPropsWithoutRef, FC, useState } from "react";
 import { toast } from "sonner";
 
+import StrongPasswordInput from "./StrongPasswordInput";
 import { useFieldsFilled } from "~/helpers/form";
 import { useInertiaForm } from "~/helpers/inertia/form";
 import { routes } from "~/helpers/routes";
@@ -21,6 +22,8 @@ export interface AccountPasswordFormProps
 const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
   ...otherProps
 }) => {
+  const [passwordStrength, setPasswordStrength] = useState(0.0);
+
   const { values, getInputProps, isDirty, processing, submit } = useInertiaForm(
     {
       name: "change-password",
@@ -38,6 +41,9 @@ const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
           if (!value) {
             return "Password is required";
           }
+          if (passwordStrength < 1.0) {
+            return "Password is too weak";
+          }
         },
         current_password: isNotEmpty("Current password is required"),
       },
@@ -52,11 +58,12 @@ const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
   return (
     <Box component="form" onSubmit={submit} {...otherProps}>
       <Stack gap="xs">
-        <PasswordInput
+        <StrongPasswordInput
           label="New password"
           placeholder="paS$w0rD"
           autoComplete="new-password"
           required
+          onStrengthCheck={setPasswordStrength}
           {...getInputProps("password")}
         />
         <Transition

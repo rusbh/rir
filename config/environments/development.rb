@@ -19,7 +19,7 @@ Rails.application.configure do
 
   # Show full error reports.
   # config.consider_all_requests_local = true
-  config.consider_all_requests_local = ActiveModel::Type::Boolean.new.cast(ENV.fetch("RAILS_SHOW_EXCEPTION_REPORTS", "true"))
+  config.consider_all_requests_local = ENV.fetch("RAILS_SHOW_EXCEPTION_REPORTS", "true").truthy?
 
   # Enable server timing.
   config.server_timing = true
@@ -47,8 +47,6 @@ Rails.application.configure do
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
   config.action_mailer.perform_caching = false
-
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

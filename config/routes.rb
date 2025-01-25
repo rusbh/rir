@@ -64,6 +64,8 @@ Rails.application.routes.draw do
   resources :files, only: :show, param: :signed_id, export: true
   resources :images, only: :show, param: :signed_id, export: true
 
+  resources :password_strength_checks, only: :create, export: true
+
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

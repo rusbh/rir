@@ -23,6 +23,7 @@ import classes from "./AppLayout.module.css";
 import Attribution from "./Attribution";
 import PageLayout from "./PageLayout";
 import { SidebarControlsProvider } from "./SidebarControlsProvider";
+import { resolveDynamicProp, useResolveDynamicProp } from "~/helpers/layout";
 
 export interface AppLayoutProps<PageProps extends SharedPageProps>
   extends Omit<AppMetaProps, "title" | "description">,
@@ -179,13 +180,3 @@ const AppLayout = <PageProps extends SharedPageProps = SharedPageProps>({
 };
 
 export default AppLayout;
-
-const useResolveDynamicProp = <PageProps extends SharedPageProps, T>(
-  prop: T | ((props: PageProps) => T),
-  pageProps: PageProps
-) => useMemo(() => resolveDynamicProp(prop, pageProps), [prop, pageProps]);
-
-const resolveDynamicProp = <PageProps extends SharedPageProps, T>(
-  prop: T | ((props: PageProps) => T),
-  pageProps: PageProps
-) => (prop instanceof Function ? prop(pageProps) : prop);
