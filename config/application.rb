@@ -21,6 +21,7 @@ Bundler.require(*Rails.groups)
 module Rir
   class Application < Rails::Application
     require "core_ext"
+    require "custom_devise_failure_app"
     require "owner"
     require "admin"
 

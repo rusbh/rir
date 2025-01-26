@@ -1,0 +1,17 @@
+.ruby-lsp/
+app/assets/
+bin/
+dist/
+db/schema.rb
+log/
+node_modules/
+public/assets/
+public/dist*/
+storage/
+tmp/
+vendor/
+package-lock.json
+yarn.lock
+**/*generated*
+Gemfile
+Gemfile.lock

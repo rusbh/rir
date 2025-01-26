@@ -10,8 +10,5 @@
 
 ## todos
 
-- [x] user avatar
-- [ ] admin panel
 - [ ] better emails
-- [ ] Fix Bugs
-  - server errors displaying on inertia modal
+- [ ] OAuth Login
