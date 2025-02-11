@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   validates :name, length: { minimum: 2 }
-  validates :email, presence: true, length: { maximum: 100 }
+  validates :email, presence: true, length: { maximum: 100 }, email: true
   validates :password,
             password_strength: {
               min_entropy: MIN_PASSWORD_ENTROPY,

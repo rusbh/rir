@@ -64,6 +64,8 @@ gem "rerun", "~> 0.14.0", require: false
 # check password strength
 gem "strong_password", "~> 0.0.10"
 
+gem "email_validator", "~> 2.2"
+
 # healthcheck status
 gem "rails-healthcheck", "~> 1.4"
 
@@ -96,4 +98,3 @@ group :test do
   gem "database_cleaner-active_record", "~> 2.2"
   gem "shoulda-matchers", "~> 6.4"
 end
-

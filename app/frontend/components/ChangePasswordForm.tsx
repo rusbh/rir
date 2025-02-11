@@ -27,7 +27,7 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
         if (!value) {
           return "Password is required";
         }
-        if (passwordStrength < 1.0) {
+        if (passwordStrength < 0.25) {
           return "Password is too weak";
         }
       },

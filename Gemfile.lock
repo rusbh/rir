@@ -119,6 +119,8 @@ GEM
       railties (>= 6.1)
     drb (2.2.1)
     dry-cli (1.2.0)
+    email_validator (2.2.4)
+      activemodel
     erubi (1.13.0)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
@@ -422,6 +424,7 @@ DEPENDENCIES
   devise (~> 4.9)
   discard (~> 1.4)
   dotenv-rails (~> 3.1)
+  email_validator (~> 2.2)
   factory_bot_rails (~> 6.4)
   foreman (~> 0.88.1)
   inertia_rails (~> 3.6)
