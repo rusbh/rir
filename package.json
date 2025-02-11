@@ -16,6 +16,8 @@
     "@mantine/notifications": "^7.15.1",
     "@mantine/nprogress": "^7.15.1",
     "@rails/activestorage": "^8.0.100",
+    "@react-email/components": "^0.0.32",
+    "@react-email/render": "^1.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",

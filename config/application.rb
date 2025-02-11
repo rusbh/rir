@@ -20,7 +20,12 @@ Bundler.require(*Rails.groups)
 
 module Rir
   class Application < Rails::Application
+    # Extensions
     require "core_ext"
+    require "vite_ruby_ext"
+    require "inertia_rails_ext"
+
+    # Libraries
     require "custom_devise_failure_app"
     require "owner"
     require "admin"

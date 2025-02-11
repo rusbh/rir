@@ -20,6 +20,10 @@ class User < ApplicationRecord
             },
             allow_nil: true
 
+  def email_with_name
+    ActionMailer::Base.email_address_with_name(email, name)
+  end
+
   def email_domain
     _, domain = email.split("@")
     domain

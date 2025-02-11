@@ -3,6 +3,7 @@ import {
   Group,
   JsonInput,
   type MantineColorsTuple,
+  MantineThemeOverride,
   NumberInput,
   Overlay,
   Textarea,
@@ -24,6 +25,8 @@ import {
 import classes from "./mantine.module.css";
 import "./mantine.css";
 import { cn } from "~/lib/utils";
+import { useSafeViewportRect } from "./safeArea";
+import { useMemo } from "react";
 
 export type CustomColors = "primary" | "accent" | DefaultMantineColor;
 
@@ -164,3 +167,7 @@ export const THEME = createTheme({
   },
 });
 
+export const useTheme = (): MantineThemeOverride => {
+  const safeViewportRect = useSafeViewportRect();
+  return useMemo(() => createTheme(safeViewportRect), [safeViewportRect]);
+};

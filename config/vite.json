@@ -3,7 +3,8 @@
     "sourceCodeDir": "app/frontend",
     "watchAdditionalPaths": [
       "~/assets/**/*",
-      "~/pages/*.tsx"
+      "~/pages/*.tsx",
+      "~/emails/*.tsx"
     ],
     "ssrBuildEnabled": true,
     "ssrEntrypoint": "~/ssr/ssr.{js,jsx,ts,tsx}",
