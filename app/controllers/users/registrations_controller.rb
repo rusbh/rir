@@ -60,7 +60,7 @@ module Users
       end
     end
 
-    # PUT /account/email
+    # POST /account/change_email
     def change_email
       resource = resource_class
                  .to_adapter
@@ -83,7 +83,7 @@ module Users
       end
     end
 
-    # PUT /account/password
+    # POST /account/change_password
     def change_password
       resource = resource_class
                  .to_adapter
