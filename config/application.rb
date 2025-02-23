@@ -25,9 +25,8 @@ module Rir
     require "owner"
     require "admin"
 
-    BOOTED_AT = Time.current
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 8.0
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -61,6 +60,8 @@ module Rir
     config.active_storage.variant_processor = :vips
     config.active_storage.direct_uploads_size_limit = 25.megabytes
     config.active_storage.routes_prefix = "/storage"
+
+    BOOTED_AT = Time.current
 
     def booted_at = BOOTED_AT
   end
