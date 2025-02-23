@@ -4,9 +4,9 @@
 
 ### Requirements
 
-* Ruby 3.3.1
-* Rails 7.2.2.1
-* Node 22.11.0
+* Ruby 3.4.2
+* Rails 8.0.1
+* Node 22.14.0
 
 ## todos
 
