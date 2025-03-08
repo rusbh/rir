@@ -8,7 +8,7 @@ export const useCurrentUser = (): Schema.User | null => {
 export const useAuthenticatedUser = (): Schema.User => {
   const currentUser = useCurrentUser();
   if (!currentUser) {
-    throw new Error('User is not authenticated');
+    throw new Error('Missing current user');
   }
   return currentUser;
 };

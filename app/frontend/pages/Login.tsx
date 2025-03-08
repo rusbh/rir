@@ -16,9 +16,7 @@ import { PageComponent } from "~/helpers/inertia";
 import { routes } from "~/helpers/routes";
 import { SharedPageProps } from "~/types";
 
-export interface LoginProps extends SharedPageProps {
-  failed: boolean;
-}
+export interface LoginProps extends SharedPageProps {}
 
 const Login: PageComponent<LoginProps> = () => (
   <Card w={380} withBorder>

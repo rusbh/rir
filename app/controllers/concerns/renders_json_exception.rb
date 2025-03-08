@@ -17,7 +17,7 @@ module RendersJsonException
   def render_json_exception(exception)
     render(
       json: { error: format_json_exception(exception) },
-      status: :internal_server_error
+      status: :internal_server_error,
     )
   end
 end

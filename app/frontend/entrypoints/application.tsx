@@ -7,6 +7,8 @@ import { setupInertia } from "~/helpers/inertia";
 import { setupLuxon } from "~/helpers/luxon";
 import { setupActiveStorage } from "~/helpers/activestorage";
 import { SharedPageProps } from "~/types";
+import { setupRoutes } from "~/helpers/routes";
+
 // Temporary type definition, until @inertiajs/react provides one
 type ResolvedComponent = {
   default: ReactNode;
@@ -14,6 +16,7 @@ type ResolvedComponent = {
 };
 
 setupInertia();
+setupRoutes();
 setupLuxon();
 setupActiveStorage();
 

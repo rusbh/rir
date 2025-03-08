@@ -13,15 +13,15 @@ Rails.application.routes.draw do
   end
 
   devise_for :users,
-             skip: %i[registration confirmation password],
+             skip: [:registration, :confirmation, :password],
              controllers: {
-               sessions: 'users/sessions'
+               sessions: 'users/sessions',
                #  omniauth_callbacks: "users/omniauth_callbacks",
              },
              path: '/',
              path_names: {
                sign_in: 'login',
-               sign_out: 'logout'
+               sign_out: 'logout',
              }
 
   devise_scope :user do
@@ -29,14 +29,16 @@ Rails.application.routes.draw do
       # User Registration
       resource :registration,
                path: '/signup',
-               only: %i[new create destroy],
+               only: [:new, :create, :destroy],
                path_names: { new: '' }
 
       # User Info Modification
-      resource(:registration,
-               path: '/account',
-               only: %i[edit update],
-               path_names: { edit: '' }) do
+      resource(
+        :registration,
+        path: '/account',
+        only: [:edit, :update],
+        path_names: { edit: '' },
+      ) do
         post :change_email
         post :change_password
       end
@@ -45,17 +47,17 @@ Rails.application.routes.draw do
         # Email Confirmation
         resource :confirmation,
                  path: '/email_verification',
-                 only: %i[new show create],
+                 only: [:new, :show, :create],
                  path_names: {
-                   new: 'resend'
+                   new: 'resend',
                  }
 
         # Password Management Routes
         resource :password,
-                 only: %i[new edit create update],
+                 only: [:new, :edit, :create, :update],
                  path_names: {
                    new: 'reset',
-                   edit: 'change'
+                   edit: 'change',
                  }
       end
     end

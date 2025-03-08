@@ -2,7 +2,8 @@ import { type PasswordInputProps } from "@mantine/core";
 import { PasswordInput, Progress } from "@mantine/core";
 import { useThrottledValue, useUncontrolled } from "@mantine/hooks";
 import { FC, useEffect } from "react";
-import { useFetchForm } from "~/helpers/fetch/form";
+
+import { useForm } from "~/helpers/form";
 import { routes } from "~/helpers/routes";
 
 export interface StrongPasswordInputProps
@@ -30,13 +31,13 @@ const StrongPasswordInput: FC<StrongPasswordInputProps> = ({
   interface FormData {
     strength: number;
   }
-  const { data, setFieldValue, submit } = useFetchForm({
+  const { data, setFieldValue, submit } = useForm({
     action: routes.passwordStrengthChecks.create,
     descriptor: "check password strength",
     initialValues: {
       password: resolvedValue,
     },
-    transformValues: values => ({ check: values }),
+    transformValues: (values) => ({ check: values }),
     onSuccess: ({ strength }: FormData) => {
       onStrengthCheck?.(strength);
     },
@@ -52,7 +53,7 @@ const StrongPasswordInput: FC<StrongPasswordInputProps> = ({
 
   return (
     <PasswordInput
-      inputContainer={children => {
+      inputContainer={(children) => {
         const inputWithProgress = (
           <>
             {children}
@@ -63,8 +64,8 @@ const StrongPasswordInput: FC<StrongPasswordInputProps> = ({
                   strength === 1.0
                     ? "green"
                     : strength > 0.25
-                      ? "yellow"
-                      : "red"
+                    ? "yellow"
+                    : "red"
                 }
                 value={Math.round(strength * 100)}
                 mt={6}

@@ -1,8 +1,12 @@
 import { Box, BoxProps, Button, Stack } from "@mantine/core";
 import { ComponentPropsWithoutRef, FC, useState } from "react";
-import { useInertiaForm } from "~/helpers/inertia/form";
+import { toast } from "sonner";
+import { router } from "@inertiajs/react";
+
+import { homeRoute } from "~/helpers/routes";
 import { routes } from "~/helpers/routes";
 import StrongPasswordInput from "./StrongPasswordInput";
+import { useForm } from "~/helpers/form";
 
 export interface ChangePasswordPageFormProps
   extends BoxProps,
@@ -16,14 +20,14 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
 }) => {
   const [passwordStrength, setPasswordStrength] = useState(0.0);
 
-  const { getInputProps, processing, submit } = useInertiaForm({
+  const { getInputProps, submitting, submit } = useForm({
     action: routes.usersPasswords.update,
     descriptor: "change password",
     initialValues: {
       password: "",
     },
     validate: {
-      password: value => {
+      password: (value) => {
         if (!value) {
           return "Password is required";
         }
@@ -32,12 +36,19 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
         }
       },
     },
-    transformValues: attributes => ({
+    transformValues: (values) => ({
       user: {
-        ...attributes,
+        ...values,
         reset_password_token: resetPasswordToken,
       },
     }),
+    onSuccess: ({ user }: { user: Schema.User }) => {
+      toast.success("Password changed successfully!", {
+        description: "You are now signed in.",
+      });
+      const path = homeRoute(user).path();
+      router.visit(path);
+    },
   });
 
   return (
@@ -52,7 +63,7 @@ const ChangePasswordPageForm: FC<ChangePasswordPageFormProps> = ({
           minLength={6}
           onStrengthCheck={setPasswordStrength}
         />
-        <Button type="submit" loading={processing}>
+        <Button type="submit" loading={submitting}>
           Continue
         </Button>
       </Stack>

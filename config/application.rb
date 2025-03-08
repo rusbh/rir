@@ -26,12 +26,12 @@ module Rir
     require "admin"
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 8.0
+    config.load_defaults(8.0)
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: ['assets', 'tasks'])
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -43,17 +43,17 @@ module Rir
 
     # Don't generate helpers, views, assets or system test files.
     config.generators do |g|
-      g.helper false
-      g.system_tests nil
-      g.template_engine nil
-      g.assets false
+      g.helper(false)
+      g.system_tests(nil)
+      g.template_engine(nil)
+      g.assets(false)
     end
 
-    config.session_store :cookie_store, key: "_rir_session"
+    config.session_store(:cookie_store, key: "_rir_session")
 
     config.exceptions_app = routes
     config.action_dispatch
-          .rescue_responses["ActionPolicy::Unauthorized"] = :unauthorized
+      .rescue_responses["ActionPolicy::Unauthorized"] = :unauthorized
 
     config.action_controller.action_on_unpermitted_parameters = :raise
 

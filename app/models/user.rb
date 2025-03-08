@@ -5,9 +5,13 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable, :trackable
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable,
+         :confirmable,
+         :trackable
 
   has_one_attached :avatar
 
@@ -16,12 +20,12 @@ class User < ApplicationRecord
   validates :password,
             password_strength: {
               min_entropy: MIN_PASSWORD_ENTROPY,
-              use_dictionary: true
+              use_dictionary: true,
             },
             allow_nil: true
 
   def email_domain
-    _, domain = email.split("@")
+    _username, domain = email.split("@")
     domain
   end
 

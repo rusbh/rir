@@ -1,11 +1,13 @@
 import { Box, BoxProps, Button, Stack, TextInput } from "@mantine/core";
 import { isEmail, isNotEmpty } from "@mantine/form";
 import { ComponentPropsWithoutRef, FC, startTransition, useState } from "react";
+import { router } from "@inertiajs/react";
+import { toast } from "sonner";
 
-import { useFieldsFilled } from "~/helpers/form";
-import { useInertiaForm } from "~/helpers/inertia/form";
+import { useFieldsFilled, useForm } from "~/helpers/form";
 import { routes } from "~/helpers/routes";
 import StrongPasswordInput from "./StrongPasswordInput";
+import { homeRoute } from "~/helpers/routes";
 
 export interface SignupFormProps
   extends BoxProps,
@@ -14,7 +16,7 @@ export interface SignupFormProps
 const SignupForm: FC<SignupFormProps> = (props) => {
   const [passwordStrength, setPasswordStrength] = useState(0.0);
 
-  const { values, getInputProps, processing, submit } = useInertiaForm({
+  const { values, getInputProps, submitting, submit } = useForm({
     action: routes.usersRegistrations.create,
     descriptor: "sign up",
     initialValues: {
@@ -24,7 +26,7 @@ const SignupForm: FC<SignupFormProps> = (props) => {
     },
     validate: {
       name: isNotEmpty("Name is required"),
-      email: isEmail("Email is not valid"),
+      email: isEmail("Invalid email address"),
       password: (value) => {
         if (!value) {
           return "Password is required";
@@ -37,6 +39,12 @@ const SignupForm: FC<SignupFormProps> = (props) => {
     transformValues: (attributes) => ({ user: attributes }),
     onError: ({ setFieldValue }) => {
       setFieldValue("password", "");
+    },
+    onSuccess: ({ user }: { user: Schema.User }) => {
+      toast.success("Check your inbox!", {
+        description: "Email Verification link was sent to your email.",
+      });
+      router.visit(homeRoute(user).path());
     },
   });
 
@@ -66,13 +74,13 @@ const SignupForm: FC<SignupFormProps> = (props) => {
           placeholder="paS$w0rD"
           autoComplete="new-password"
           required
-          onStrengthCheck={strength => {
+          onStrengthCheck={(strength) => {
             startTransition(() => {
               setPasswordStrength(strength);
             });
           }}
         />
-        <Button type="submit" disabled={!filled} loading={processing}>
+        <Button type="submit" disabled={!filled} loading={submitting}>
           Sign up
         </Button>
       </Stack>

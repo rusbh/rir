@@ -1,13 +1,14 @@
 import {
   type DefaultMantineColor,
+  Drawer,
   Group,
+  InputBase,
   JsonInput,
   type MantineColorsTuple,
   NumberInput,
+  PinInput,
   Overlay,
   Textarea,
-} from "@mantine/core";
-import {
   ActionIcon,
   Alert,
   Button,
@@ -15,7 +16,6 @@ import {
   DEFAULT_THEME,
   Loader,
   Modal,
-  Notification,
   PasswordInput,
   TextInput,
   ThemeIcon,
@@ -74,6 +74,17 @@ export const THEME = createTheme({
         root: classes.button,
       },
     }),
+    Drawer: Drawer.extend({
+      classNames: {
+        content: classes.drawerContent,
+      },
+      styles: ({ headings: { sizes, ...style } }) => ({
+        title: {
+          ...sizes.h4,
+          ...style,
+        },
+      }),
+    }),
     Group: Group.extend({
       defaultProps: {
         wrap: "nowrap",
@@ -86,6 +97,9 @@ export const THEME = createTheme({
       },
     }),
     Modal: Modal.extend({
+      classNames: {
+        inner: classes.modalInner,
+      },
       styles: ({ headings: { sizes, ...style } }) => ({
         header: {
           alignItems: "start",
@@ -109,25 +123,23 @@ export const THEME = createTheme({
         input: classes.input,
       },
     }),
-    Notification: Notification.extend({
-      styles: ({ lineHeights, spacing }) => ({
-        title: {
-          marginBottom: 0,
-        },
-        description: {
-          lineHeight: lineHeights.xs,
-        },
-        icon: {
-          backgroundColor: "transparent",
-          color: "var(--notification-color)",
-          marginInlineEnd: spacing.xs,
-        },
-      }),
-    }),
     NumberInput: NumberInput.extend({
       defaultProps: {
         variant: "filled",
       },
+      classNames: {
+        input: classes.input,
+      },
+    }),
+    InputBase: InputBase.extend({
+      defaultProps: {
+        variant: "filled",
+      },
+      classNames: {
+        input: classes.input,
+      },
+    }),
+    PinInput: PinInput.extend({
       classNames: {
         input: classes.input,
       },
@@ -163,4 +175,3 @@ export const THEME = createTheme({
     }),
   },
 });
-

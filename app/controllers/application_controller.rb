@@ -24,10 +24,10 @@ class ApplicationController < ActionController::Base
     {
       csrf: {
         param: request_forgery_protection_token,
-        token: form_authenticity_token
+        token: form_authenticity_token,
       },
       flash: flash.to_h,
-      "currentUser" => UserSerializer.one_if(current_user)
+      "currentUser" => UserSerializer.one_if(current_user),
     }
   end
 
@@ -35,6 +35,8 @@ class ApplicationController < ActionController::Base
               ActiveRecord::RecordNotSaved,
               with: :report_and_render_json_exception
   rescue_from ActionPolicy::Unauthorized, with: :handle_unauthorized
+  rescue_from ActionController::InvalidAuthenticityToken,
+              with: :handle_invalid_authenticity_token
 
   private
 
@@ -73,6 +75,16 @@ class ApplicationController < ActionController::Base
       report_and_render_json_exception(error)
     else
       authenticate_user!
+    end
+  end
+
+  def handle_invalid_authenticity_token(exception)
+    if request.inertia?
+      redirect_back_or_to("/", notice: "The page expired, please try again.")
+    elsif request.format.json?
+      report_and_render_json_exception(exception)
+    else
+      raise
     end
   end
 end

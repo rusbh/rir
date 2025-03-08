@@ -1,7 +1,7 @@
 .button {
   font-weight: 700;
 
-  [data-mantine-color-scheme='dark']
+  [data-mantine-color-scheme="dark"]
     :global(.mantine-Card-root)
     &:where(
       :disabled:not([data-loading]),
@@ -17,4 +17,18 @@
 
 .input {
   font-size: var(--mantine-font-size-md);
+}
+
+.modalInner {
+  padding-top: calc(
+    var(--modal-inner-y-offset, var(--modal-y-offset)) +
+      env(safe-area-inset-top, 0px)
+  );
+}
+
+.drawerContent {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }

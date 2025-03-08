@@ -6,7 +6,7 @@ class UserSerializer < ApplicationSerializer
              :email,
              unconfirmed_email: {
                type: :string,
-               optional: true
+               optional: true,
              },
              owner?: { as: :is_owner, type: :boolean }
 

@@ -5,8 +5,7 @@ import { ComponentPropsWithoutRef, FC, useMemo } from "react";
 import ImageInput from "./ImageInput";
 import { toastChangesSaved } from "~/helpers/alerts";
 import { useAuthenticatedUser } from "~/helpers/authentication";
-import { useFetchForm } from "~/helpers/fetch/form";
-import { useFieldsFilled } from "~/helpers/form";
+import { useFieldsFilled, useForm } from "~/helpers/form";
 import { routes } from "~/helpers/routes";
 import { SaveIcon } from "./icons";
 
@@ -36,11 +35,11 @@ const AccountProfileForm: FC<AccountProfileFormProps> = ({
     values,
     getInputProps,
     isDirty,
-    processing,
+    submitting,
     reset,
     setInitialValues,
     submit,
-  } = useFetchForm({
+  } = useForm({
     name: "profile",
     action: routes.usersRegistrations.update,
     descriptor: "update profile",
@@ -82,7 +81,7 @@ const AccountProfileForm: FC<AccountProfileFormProps> = ({
           type="submit"
           leftSection={<SaveIcon />}
           disabled={!isDirty() || !filled}
-          loading={processing}
+          loading={submitting}
         >
           Save
         </Button>

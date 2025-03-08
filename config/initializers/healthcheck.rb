@@ -4,15 +4,15 @@ Healthcheck.configure do |config|
   config.success = 200
   config.error = 503
   config.verbose = false
-  config.route = '/status'
+  config.route = '/up'
   config.method = :get
 
   # -- Custom Response --
   config.custom = lambda { |controller, checker|
     controller.render(json: {
-                        status: HealthCheckSerializer.render(checker),
-                        "bootedAt" => Rir::Application.booted_at
-                      })
+      status: HealthCheckSerializer.render(checker),
+      "bootedAt" => Rir::Application.booted_at,
+    })
   }
 
   # -- Checks --

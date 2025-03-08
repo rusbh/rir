@@ -2,7 +2,7 @@
 
 module Users
   class RegistrationsController < Devise::RegistrationsController
-    ATTRIBUTES_REQUIRING_CURRING_PASSWORD = %i[email password].freeze
+    ATTRIBUTES_REQUIRING_CURRING_PASSWORD = [:email, :password].freeze
 
     before_action :configure_sign_up_params, only: :create
 
@@ -22,40 +22,41 @@ module Users
       resource.skip_confirmation! if Rails.env.development? && resource.owner?
       if resource.save
         if resource.active_for_authentication?
-          set_flash_message!(:notice, :signed_up)
+          # set_flash_message!(:notice, :signed_up)
           sign_up(resource_name, resource)
-          redirect_to(after_sign_up_path_for(resource))
+          # redirect_to(after_sign_up_path_for(resource))
         else
           set_flash_message!(
             :notice,
-            :"signed_up_but_#{resource.inactive_message}"
+            :"signed_up_but_#{resource.inactive_message}",
           )
           expire_data_after_sign_in!
-          redirect_to(after_inactive_sign_up_path_for(resource))
+          # redirect_to(after_inactive_sign_up_path_for(resource))
         end
+        render(json: { user: UserSerializer.one(resource) })
       else
-        redirect_to(new_registration_path(resource_name), inertia: {
-                      errors: resource.form_errors
-                    })
+        render(
+          json: { errors: resource.form_errors },
+          status: :unprocessable_entity,
+        )
       end
     end
 
     # PUT /account
     def update
       resource = self.resource = resource_class
-                                 .to_adapter
-                                 .get!(public_send(:"current_#{resource_name}").to_key)
-      update_params = params.require(resource_name)
-                            .permit(:name, :avatar)
+        .to_adapter
+        .get!(public_send(:"current_#{resource_name}").to_key)
+      update_params = params.expect(resource_name => [:name, :avatar])
       if update_resource(resource, update_params)
         resource_param = resource_name.to_s.camelize(:lower)
         render(json: {
-                 resource_param => UserSerializer.one(resource)
-               })
+          resource_param => UserSerializer.one(resource),
+        })
       else
         render(
           json: { errors: resource.form_errors },
-          status: :unprocessable_entity
+          status: :unprocessable_entity,
         )
       end
     end
@@ -63,22 +64,25 @@ module Users
     # POST /account/change_email
     def change_email
       resource = resource_class
-                 .to_adapter
-                 .get!(public_send(:"current_#{resource_name}").to_key)
-      update_params = params.require(resource_name)
-                            .permit(:email, :current_password)
-      update_params[:unconfirmed_email] = nil if resource.email == update_params[:email]
+        .to_adapter
+        .get!(public_send(:"current_#{resource_name}").to_key)
+      update_params = params.expect(resource_name => [
+        :email,
+        :current_password,
+      ])
+      update_params[:unconfirmed_email] =
+        nil if resource.email == update_params[:email]
       if resource.update_with_password(update_params)
         needs_confirmation = update_needs_confirmation?(resource, nil)
         resource_param = resource_name.to_s.camelize(:lower)
         render(json: {
-                 resource_param => UserSerializer.one(resource),
-                 "emailNeedsConfirmation" => needs_confirmation
-               })
+          resource_param => UserSerializer.one(resource),
+          "emailNeedsConfirmation" => needs_confirmation,
+        })
       else
         render(
           json: { errors: resource.form_errors },
-          status: :unprocessable_entity
+          status: :unprocessable_entity,
         )
       end
     end
@@ -86,23 +90,37 @@ module Users
     # POST /account/change_password
     def change_password
       resource = resource_class
-                 .to_adapter
-                 .get!(public_send(:"current_#{resource_name}").to_key)
+        .to_adapter
+        .get!(public_send(:"current_#{resource_name}").to_key)
       if resource.update_with_password(account_update_params)
-        bypass_sign_in(resource, scope: resource_name) if sign_in_after_change_password?
-        redirect_to(after_update_path_for(resource))
+        bypass_sign_in(
+          resource,
+          scope: resource_name,
+        ) if sign_in_after_change_password?
+        render(json: {})
       else
         clean_up_passwords(resource)
-        redirect_to(edit_registration_path(resource), inertia: {
-                      errors: resource.form_errors
-                    })
+        render(
+          json: { errors: resource.form_errors },
+          status: :unprocessable_entity,
+        )
       end
     end
 
     # DELETE /resource
-    # def destroy
-    #   super
-    # end
+    def destroy
+      resource = resource_class
+        .to_adapter
+        .get!(public_send(:"current_#{resource_name}").to_key)
+      if resource.destroy
+        render(json: {})
+      else
+        render(
+          json: { errors: resource.form_errors },
+          status: :unprocessable_entity,
+        )
+      end
+    end
 
     # GET /resource/cancel
     # Forces the session data which is usually expired after sign
@@ -117,7 +135,7 @@ module Users
 
     def update_resource(resource, params)
       requires_current_password = ATTRIBUTES_REQUIRING_CURRING_PASSWORD
-                                  .any? { |attribute| params[attribute].present? }
+        .any? { |attribute| params[attribute].present? }
       if requires_current_password
         resource.update_with_password(params)
       else

@@ -1,17 +1,27 @@
-import { Box, BoxProps, Button, Checkbox, PasswordInput, Stack, TextInput, Tooltip } from "@mantine/core";
+import { router } from "@inertiajs/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Checkbox,
+  PasswordInput,
+  Stack,
+  TextInput,
+  Tooltip,
+} from "@mantine/core";
 import { isEmail, isNotEmpty } from "@mantine/form";
 import { ComponentPropsWithoutRef, FC } from "react";
+import { toast } from "sonner";
 
-import { useFieldsFilled } from "~/helpers/form";
-import { useInertiaForm } from "~/helpers/inertia/form";
-import { routes } from "~/helpers/routes";
+import { useFieldsFilled, useForm } from "~/helpers/form";
+import { homeRoute, routes } from "~/helpers/routes";
 
 export interface LoginFormProps
   extends BoxProps,
     Omit<ComponentPropsWithoutRef<"form">, "style" | "children" | "onSubmit"> {}
 
 const LoginForm: FC<LoginFormProps> = (props) => {
-  const { values, getInputProps, processing, submit } = useInertiaForm({
+  const { values, getInputProps, submitting, submit } = useForm({
     action: routes.usersSessions.create,
     descriptor: "sign in",
     initialValues: {
@@ -28,6 +38,11 @@ const LoginForm: FC<LoginFormProps> = (props) => {
     }),
     onError: ({ setFieldValue }) => {
       setFieldValue("password", "");
+    },
+    onSuccess: ({ user }: { user: Schema.User }) => {
+      toast.success(<>Welcome back, {user.name} :)</>);
+      const path = homeRoute(user).path();
+      router.visit(path);
     },
   });
   const filled = useFieldsFilled(values, "email", "password");
@@ -63,7 +78,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
             label="Stay signed in"
           />
         </Tooltip>
-        <Button type="submit" disabled={!filled} loading={processing}>
+        <Button type="submit" disabled={!filled} loading={submitting}>
           Sign in
         </Button>
       </Stack>

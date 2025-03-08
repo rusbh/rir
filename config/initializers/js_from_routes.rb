@@ -2,7 +2,7 @@
 
 return unless Rails.env.development?
 
-ADDITIONAL_CONTROLLERS = %w[users/sessions].freeze
+ADDITIONAL_CONTROLLERS = ['users/sessions'].freeze
 
 JsFromRoutes.config do |config|
   config.file_suffix = "Routes.ts"

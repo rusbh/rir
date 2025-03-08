@@ -10,7 +10,7 @@ TypesFromSerializers.config do |config|
     jsonb: "Record<string, string>",
     uuid: :string,
     date: :string,
-    datetime: :string
+    datetime: :string,
   )
   config.namespace = "Schema"
   config.transform_keys = ->(key) { key }

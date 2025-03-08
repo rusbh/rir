@@ -8,7 +8,7 @@ class ErrorsController < ApplicationController
     render_error_page(
       status: :not_found,
       title: "Page not found",
-      description: "The page you were looking for doesn't exist!"
+      description: "The page you were looking for doesn't exist!",
     )
   end
 
@@ -20,7 +20,7 @@ class ErrorsController < ApplicationController
       description:
         "Sorry about this, but something went wrong while processing this " \
         "request! Our team has been notified.",
-      error: exception
+      error: exception,
     )
   end
 
@@ -32,7 +32,7 @@ class ErrorsController < ApplicationController
       description:
         "The change you wanted was rejected. Maybe you tried to change " \
         "something you didn't have access to?",
-      error: exception
+      error: exception,
     )
   end
 
@@ -42,7 +42,7 @@ class ErrorsController < ApplicationController
       status: :unauthorized,
       title: "Unauthorized",
       description:
-        "You're not allowed to access this resource or perform this action."
+        "You're not allowed to access this resource or perform this action.",
     )
   end
 
@@ -50,7 +50,7 @@ class ErrorsController < ApplicationController
 
   def render_error_page(status:, title:, description:, error: nil)
     code = Rack::Utils.status_code(status)
-    respond_with do |format|
+    respond_to do |format|
       format.html do
         render(
           inertia: "ErrorPage",
@@ -58,9 +58,9 @@ class ErrorsController < ApplicationController
             title:,
             description:,
             code:,
-            error: error.to_s
+            error: error.to_s,
           },
-          status:
+          status:,
         )
       end
       format.json do

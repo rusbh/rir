@@ -13,13 +13,13 @@ class Users::SessionsController < Devise::SessionsController
   def create
     resource = self.resource = warden.authenticate!(auth_options)
     sign_in(resource_name, resource)
-    inertia_location(after_sign_in_path_for(resource))
+    render(json: { user: UserSerializer.one(resource) })
   end
 
   # DELETE /logout
   def destroy
     sign_out(resource)
-    inertia_location(after_sign_out_path_for(resource_name))
+    render(json: {})
   end
 
   # protected

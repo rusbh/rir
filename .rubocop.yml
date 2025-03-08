@@ -1,3 +1,6 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
 plugins:
   - rubocop-performance
   - rubocop-rails
@@ -31,9 +34,17 @@ Style/StringLiterals:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
 
 Layout/LineLength:
-  Enabled: false
+  Max: 80
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_first_argument
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+Layout/FirstArgumentIndentation:
+  Enabled: true
 
 Rails/I18nLocaleTexts:
   Enabled: false

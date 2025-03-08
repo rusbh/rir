@@ -9,10 +9,10 @@ import {
 import { isNotEmpty } from "@mantine/form";
 import { ComponentPropsWithoutRef, FC, useState } from "react";
 import { toast } from "sonner";
+import { router } from "@inertiajs/react";
 
 import StrongPasswordInput from "./StrongPasswordInput";
-import { useFieldsFilled } from "~/helpers/form";
-import { useInertiaForm } from "~/helpers/inertia/form";
+import { useFieldsFilled, useForm } from "~/helpers/form";
 import { routes } from "~/helpers/routes";
 
 export interface AccountPasswordFormProps
@@ -24,34 +24,33 @@ const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
 }) => {
   const [passwordStrength, setPasswordStrength] = useState(0.0);
 
-  const { values, getInputProps, isDirty, processing, submit } = useInertiaForm(
-    {
-      name: "change-password",
-      action: routes.usersRegistrations.changePassword,
-      descriptor: "change password",
-      initialValues: {
-        password: "",
-        current_password: "",
+  const { values, getInputProps, isDirty, submitting, submit } = useForm({
+    name: "change-password",
+    action: routes.usersRegistrations.changePassword,
+    descriptor: "change password",
+    initialValues: {
+      password: "",
+      current_password: "",
+    },
+    transformValues: (attributes) => ({
+      user: attributes,
+    }),
+    validate: {
+      password: (value) => {
+        if (!value) {
+          return "Password is required";
+        }
+        if (passwordStrength < 1.0) {
+          return "Password is too weak";
+        }
       },
-      transformValues: (attributes) => ({
-        user: attributes,
-      }),
-      validate: {
-        password: (value) => {
-          if (!value) {
-            return "Password is required";
-          }
-          if (passwordStrength < 1.0) {
-            return "Password is too weak";
-          }
-        },
-        current_password: isNotEmpty("Current password is required"),
-      },
-      onSuccess: () => {
-        toast.success("Password changed successfully.");
-      },
-    }
-  );
+      current_password: isNotEmpty("Current password is required"),
+    },
+    onSuccess: () => {
+      toast.success("Password changed successfully.");
+      router.reload({ only: ["currentUser"] });
+    },
+  });
   const currentPasswordFilled = useFieldsFilled(values, "current_password");
   const passwordFieldsFilled = useFieldsFilled(values, "password");
 
@@ -89,7 +88,7 @@ const AccountPasswordForm: FC<AccountPasswordFormProps> = ({
             !passwordFieldsFilled ||
             !currentPasswordFilled
           }
-          loading={processing}
+          loading={submitting}
         >
           Change password
         </Button>

@@ -1,7 +1,7 @@
 import { createInertiaApp } from "@inertiajs/react";
 import createServer from "@inertiajs/react/server";
 import { SetupOptions } from "node_modules/@inertiajs/react/types/createInertiaApp";
-import { renderToString as renderPage } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 
 import { PageComponent, parsePageImports } from "~/helpers/inertia";
 
@@ -23,9 +23,7 @@ const pages = parsePageImports(pageImports);
 createServer((page) =>
   createInertiaApp({
     page,
-    render: (page): string => {
-      return renderPage(page);
-    },
+    render: renderToString,
     resolve: (name) => {
       const page = pages[name];
       preparePage(page);

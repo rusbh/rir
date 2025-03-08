@@ -1,4 +1,4 @@
-import { Link, type InertiaLinkProps } from "@inertiajs/react";
+import { Link, router, type InertiaLinkProps } from "@inertiajs/react";
 import {
   Avatar,
   Badge,
@@ -9,6 +9,7 @@ import {
   Text,
 } from "@mantine/core";
 import { ComponentPropsWithoutRef, FC, startTransition, useState } from "react";
+import { toast } from "sonner";
 
 import {
   AccountIcon,
@@ -20,8 +21,7 @@ import {
 import { routes } from "~/helpers/routes";
 import { useCurrentUser } from "~/helpers/authentication";
 import TimeAgo from "./TimeAgo";
-import { useInertiaForm } from "~/helpers/inertia";
-import { useFetchRoute } from "~/helpers/fetch";
+import { useRouteMutation, useRouteSWR } from "~/helpers/routes/swr";
 
 import classes from "./AppMenu.module.css";
 
@@ -34,7 +34,7 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
 
   const [opened, setOpened] = useState(false);
 
-  const { data } = useFetchRoute<{ bootedAt: string }>(
+  const { data } = useRouteSWR<{ bootedAt: string }>(
     routes.healthcheckHealthchecks.check,
     {
       descriptor: "load server info",
@@ -42,9 +42,12 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
   );
   const { bootedAt } = data ?? {};
 
-  const { submit: logout } = useInertiaForm({
-    action: routes.usersSessions.destroy,
+  const { trigger: logout } = useRouteMutation(routes.usersSessions.destroy, {
     descriptor: "sign out",
+    onSuccess: () => {
+      toast.success("Signed out successfully");
+      router.visit(routes.home.index.path());
+    },
   });
 
   interface MenuLinkProps
@@ -67,15 +70,12 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
           setOpened(opened);
         });
       }}
-      classNames={{
-        item: classes.item,
-        itemSection: classes.itemSection,
-        itemLabel: classes.itemLabel,
-      }}
+      classNames={{ item: classes.item }}
       {...otherProps}
     >
       <Menu.Target>
         <Badge
+          className={classes.target}
           variant="default"
           size="lg"
           leftSection={
@@ -86,10 +86,6 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
             )
           }
           styles={{
-            label: {
-              fontWeight: 500,
-              maxWidth: 96,
-            },
             root: {
               paddingLeft: currentUser ? 2 : 8,
             },
@@ -114,7 +110,7 @@ const AppMenu: FC<AppMenuProps> = ({ ...otherProps }) => {
             <Menu.Item
               leftSection={<SignOutIcon />}
               onClick={() => {
-                logout();
+                void logout();
               }}
             >
               Sign out

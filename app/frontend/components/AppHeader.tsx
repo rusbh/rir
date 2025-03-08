@@ -23,7 +23,7 @@ const AppHeader = forwardRef<HTMLDivElement, AppHeaderProps>(
       <AppShell.Header
         {...{ ref }}
         px={8}
-        className={cn("AppHeader-root", className)}
+        className={cn("AppHeader", className)}
         {...otherProps}
       >
         <Group justify="space-between" gap={8} h="100%">

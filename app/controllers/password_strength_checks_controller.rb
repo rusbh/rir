@@ -3,12 +3,12 @@
 class PasswordStrengthChecksController < ApplicationController
   # POST /password_strength_checks
   def create
-    check_params = params.require(:check).permit(:password)
+    check_params = params.expect(check: [:password])
     check = PasswordStrengthCheck.new(check_params)
     unless check.valid?
       render(
         json: { errors: check.form_errors },
-        status: :unprocessable_entity
+        status: :unprocessable_entity,
       ) and return
     end
 

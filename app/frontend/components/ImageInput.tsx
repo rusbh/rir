@@ -1,9 +1,17 @@
-import { Anchor, Box, Stack, type ImageProps, type InputWrapperProps } from "@mantine/core";
+import {
+  Anchor,
+  Box,
+  Stack,
+  type ImageProps,
+  type InputWrapperProps,
+} from "@mantine/core";
 import { Image, Input, rgba, Text } from "@mantine/core";
 import { type DropzoneProps } from "@mantine/dropzone";
 import { Dropzone } from "@mantine/dropzone";
 import { useDidUpdate, useUncontrolled } from "@mantine/hooks";
 import { FC, useId, useState } from "react";
+import { toast } from "sonner";
+import { first } from "lodash-es";
 
 import { PhotoIcon } from "~/components/icons";
 
@@ -12,10 +20,8 @@ import { Upload } from "~/types";
 
 import classes from "./ImageInput.module.css";
 import "@mantine/dropzone/styles.layer.css";
-import { useFetchRoute } from "~/helpers/fetch";
 import { routes } from "~/helpers/routes";
-import { toast } from "sonner";
-import { first } from "lodash-es";
+import { useRouteSWR } from "~/helpers/routes/swr";
 
 export interface ImageInputProps
   extends Omit<
@@ -61,7 +67,7 @@ const ImageInput: FC<ImageInputProps> = ({
     onChange,
   });
 
-  const { data, mutate } = useFetchRoute<{
+  const { data, mutate } = useRouteSWR<{
     image: Schema.Image | null;
   }>(routes.images.show, {
     descriptor: "load preview image",
@@ -97,6 +103,7 @@ const ImageInput: FC<ImageInputProps> = ({
             srcSet={image?.src_set}
           />
           <Dropzone
+            className={classes.dropzone}
             accept={["image/png", "image/jpeg"]}
             multiple={false}
             onDrop={(files) => {
@@ -121,10 +128,6 @@ const ImageInput: FC<ImageInputProps> = ({
             radius={radius}
             pos="absolute"
             inset={0}
-            classNames={{
-              root: classes.dropzone,
-              inner: classes.dropzoneInner,
-            }}
             inputProps={{ id: inputId }}
             style={[
               style,

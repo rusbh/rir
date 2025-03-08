@@ -14,7 +14,7 @@ module Users
         message = resource.errors.full_messages.first!
         redirect_to(
           new_confirmation_path(resource),
-          alert: "Couldn't verify email: #{message}"
+          alert: "Couldn't verify email: #{message}",
         )
       end
     end
@@ -27,21 +27,15 @@ module Users
     # POST /email_verification
     def create
       self.resource = resource_class
-                      .send_confirmation_instructions(confirmation_params)
+        .send_confirmation_instructions(resource_params)
       if successfully_sent?(resource)
-        redirect_url = params[:redirect_url] || root_path
-        redirect_to(redirect_url)
+        render(json: {})
       else
-        redirect_to(new_confirmation_path(resource), inertia: {
-                      errors: resource.form_errors
-                    })
+        render(
+          json: { errors: resource.form_errors },
+          status: :unprocessable_entity,
+        )
       end
-    end
-
-    private
-
-    def confirmation_params
-      params.require(:confirmation).permit(:email)
     end
   end
 end

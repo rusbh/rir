@@ -13,13 +13,15 @@ import { isEmail, isNotEmpty } from "@mantine/form";
 import { useDidUpdate } from "@mantine/hooks";
 import { ComponentPropsWithoutRef, FC, useMemo } from "react";
 import { toast } from "sonner";
+import { pick } from "lodash-es";
 
 import { toastChangesSaved } from "~/helpers/alerts";
 import { useAuthenticatedUser } from "~/helpers/authentication";
-import { useFetchForm } from "~/helpers/fetch/form";
+import { useForm } from "~/helpers/form";
 import { useFieldsFilled } from "~/helpers/form";
-import { useInertiaForm } from "~/helpers/inertia/form";
 import { routes } from "~/helpers/routes";
+import { SendIcon } from "./icons";
+import { useRouteMutation } from "~/helpers/routes/swr";
 
 export interface AccountEmailFormProps
   extends BoxProps,
@@ -48,17 +50,17 @@ const AccountEmailForm: FC<AccountEmailFormProps> = ({
     values,
     getInputProps,
     isDirty,
-    processing,
+    submitting,
     submit,
     reset,
     setInitialValues,
-  } = useFetchForm({
+  } = useForm({
     name: "change-email",
     action: routes.usersRegistrations.changeEmail,
     descriptor: "change email",
     initialValues,
     validate: {
-      email: isEmail("Email is not valid"),
+      email: isEmail("Invalid email address"),
       current_password: isNotEmpty("Current password is required"),
     },
     transformValues: (attributes) => ({
@@ -139,13 +141,14 @@ const AccountEmailForm: FC<AccountEmailFormProps> = ({
             disabled={
               !isDirty("email") || !emailFilled || !currentPasswordFilled
             }
-            loading={processing}
+            loading={submitting}
           >
             Change email
           </Button>
           {user.unconfirmed_email && (
             <ResendEmailVerificationInstructionsButton
-              variant="outline"
+              leftSection={<SendIcon />}
+              variant="subtle"
               {...{ user }}
             />
           )}
@@ -165,21 +168,25 @@ interface ResendEmailVerificationInstructionsButtonProps
 const ResendEmailVerificationInstructionsButton: FC<
   ResendEmailVerificationInstructionsButtonProps
 > = ({ user, ...otherProps }) => {
-  const { processing, submit } = useInertiaForm({
-    action: routes.usersConfirmations.create,
-    descriptor: "resend verification email",
-    initialValues: {
-      user: {
-        email: user.email,
+  // == Mutation
+  const { trigger, mutating } = useRouteMutation(
+    routes.usersConfirmations.create,
+    {
+      descriptor: "resend verification email",
+      data: { user: pick(user, "email") },
+      onSuccess: () => {
+        toast.success("Check your inbox!", {
+          description: "Verification link was re-sent to your email.",
+        });
       },
-      redirect_url: routes.usersRegistrations.edit.path(),
-    },
-  });
+    }
+  );
+
   return (
     <Button
-      loading={processing}
+      loading={mutating}
       onClick={() => {
-        submit();
+        void trigger();
       }}
       {...otherProps}
     >

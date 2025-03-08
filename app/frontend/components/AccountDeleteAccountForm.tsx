@@ -1,7 +1,8 @@
 import { Box, BoxProps, Button, Menu } from "@mantine/core";
 import { ComponentPropsWithoutRef, FC } from "react";
+import { router } from "@inertiajs/react";
 
-import { useInertiaForm } from "~/helpers/inertia/form";
+import { useForm } from "~/helpers/form";
 import { routes } from "~/helpers/routes";
 import { AlertIcon, DeleteIcon } from "./icons";
 
@@ -12,10 +13,14 @@ export interface AccountDeleteAccountFormProps
 const AccountDeleteAccountForm: FC<AccountDeleteAccountFormProps> = ({
   ...otherProps
 }) => {
-  const { processing, submit } = useInertiaForm({
+  const { submitting, submit } = useForm({
     action: routes.usersRegistrations.destroy,
     descriptor: "delete account",
+    onSuccess() {
+      router.visit(routes.home.index.path());
+    },
   });
+
   return (
     <Box component="form" onSubmit={submit} {...otherProps}>
       <Menu
@@ -34,7 +39,7 @@ const AccountDeleteAccountForm: FC<AccountDeleteAccountFormProps> = ({
             variant="subtle"
             color="red"
             leftSection={<DeleteIcon />}
-            loading={processing}
+            loading={submitting}
             fullWidth
           >
             Delete account

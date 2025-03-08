@@ -23,8 +23,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-gem "ruby-vips", "~> 2.2.3", require: false
+gem "image_processing", "~> 1.2"
+gem "ruby-vips", "~> 2.2.3"
 
 gem "inertia_rails", "~> 3.6.1"
 gem "vite_rails", "~> 3.0"
@@ -83,6 +83,7 @@ group :development, :test do
    gem "factory_bot_rails", "~> 6.4"
    
    # Linting
+   gem "rubocop-shopify", require: false
    gem "rubocop-rails", "~> 2.30.1", require: false
    gem "rubocop-rspec", "~> 3.5.0", require: false
    gem "rubocop-performance", "~> 1.24.0", require: false
